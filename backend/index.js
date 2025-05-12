@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './db/connectDB.js'; // Import the connectDB function from the db directory
+import authrouter from './routes/auth.routes.js'; // Import the auth router from the routes directory
 
 dotenv.config(); // Load environment variables from .env file
 const app = express(); // Create an instance of express
@@ -10,6 +11,9 @@ app.get('/', (req, res) => {
     res.send('Hello Develpers!');
 }); // Define a simple route for the root URL
 
+app.use(express.json()); // Middleware to parse JSON request bodies
+
+app.use('/api/auth', authrouter); // Use the auth router for authentication routes
 app.listen(port, () => {
     connectDB();
     console.log(`Server is running on port ${port}`); // Log the port number
