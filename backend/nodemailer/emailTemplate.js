@@ -93,3 +93,42 @@ export const PASSWORD_RESET_REQUEST_TEMPLATE = `
 </body>
 </html>
 `;
+
+export const WELCOME_EMAIL_TEMPLATE = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome Email</title>
+</head>
+<body style=" font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style=" background: linear-gradient(to right, #4CAF50, #45a049); padding: 20px; text-align: center; ">
+  <h1 style=" color: white; margin: 0; "> 
+   Welcome to Auth Company - Your Security Starts Here!
+ </h1>
+  </div>
+  <div style=" background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); ">
+  <h1> Welcome {name} your account is now verified ✅</h1>
+<h2 style="font-size: medium;"> Your journey to seamless and secure authentication begins now. </h2>
+ <p> Welcome to Auth Company! We're thrilled to have you on board.
+With Auth Company, you get secure, seamless access to your accounts and data without the hassle.
+</p>
+    
+<h4 style="font-size: medium;">Here’s what you can expect:</h4>
+<div style="background-color: #fff; padding: 5px; border-radius: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+   <p style="font-size: small;"> 
+   <ul style="list-style-type: none; padding: 0;">
+    <li> ✅ Strong security for your accounts </li>
+    <li> ✅ Easy and seamless authentication </li>
+    <li> ✅ 24/7 protection & support </li>
+    </ul>
+   </p>
+    </div>
+  </div>
+  <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
+    <p>This is an automated message, please do not reply to this email.</p>
+  </div>
+</body>
+</html>
+`;

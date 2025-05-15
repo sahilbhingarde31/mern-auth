@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 import bcryptjs from "bcryptjs";
 import generateTokenAndSetCookie from "../utils/generateTokenAndSetCookie.js";
-import { sendverificationcode } from "../nodemailer/email.js";
+import { sendverificationcode, sendWelcomeEmail } from "../nodemailer/email.js";
 
 // Function to handle user signup
 export const signup = async(req, res) => {
@@ -74,7 +74,7 @@ export const verifyEmail = async (req, res) => {
         user.verificationTokenExpiresAt = undefined; // Remove the expiration time for the verification token
 
         await user.save(); // Save the user to the database 
-
+        await sendWelcomeEmail(user.email, user.name); // Send a welcome email to the user
         res.status(200).json({ 
             success: true, 
             message: "Email verified successfully",
