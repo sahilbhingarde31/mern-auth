@@ -49,6 +49,7 @@ export const signup = async(req, res) => {
     }
 };
 
+// Function to handle user verifyEmail
 export const verifyEmail = async (req, res) => {
     // Logic for email verification
     // 1. Validate the request body
@@ -86,5 +87,52 @@ export const verifyEmail = async (req, res) => {
     } catch (error) {
         console.error("Error verifying email:", error);
         res.status(500).json({ success: false, message: "Internal server error" });
+    }
+};
+
+// Function to handle user logout
+export const logout = async (req, res) => {
+    // Logic for user logout
+    // 1. Clear the cookie
+    // 2. Send a response to the client
+    res.clearCookie("token"); // Clear the cookie
+    res.status(200).json({ success: true, message: "Logged out successfully" });
+};
+
+// Function to handle user login
+export const login = async (req, res) => {
+    // Logic for user login
+    // 1. Validate the request body
+    // 2. Check if the user exists
+    // 3. Check if the password is correct
+    // 4. Generate a token and set it in a cookie
+    // 5. Send a response to the client
+    const { email, password } = req.body;
+    try {
+        if(!email || !password){
+            return res.status(400).json({ success: false, message: "Please fill all the fields" });
+        }
+        const user = await User.findOne({ email }); // Check if the user exists
+        if(!user) {
+            return res.status(400).json({ success: false, message: "Invalid Credentials" });
+        }
+        const isPasswordCorrect = await bcryptjs.compare(password, user.password); // Check if the password is correct
+        if(!isPasswordCorrect) {
+            return res.status(400).json({ success: false, message: "Invalid Credentials" });
+        }
+        generateTokenAndSetCookie(res, user._id); // Generate a token and set it in a cookie
+        user.lastLogin = Date.now(); // Update the last login time
+        await user.save(); // Save the user to the database
+        res.status(200).json({
+            success: true, 
+            message: "Login successfully",
+            user:{
+                ...user._doc,
+                password:undefined, // Exclude the password from the response
+            }
+        }); // Send a response to the client
+    } catch (error) {
+        console.error("Error logging in:", error);
+        res.status(400).json({ success: false, message: error.message });
     }
 };
