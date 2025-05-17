@@ -169,6 +169,7 @@ export const forgotPassword = async (req, res) => {
     }
 };
 
+// Function to handle password reset
 export const resetPassword = async (req, res) => {
     // Logic for resetting the password
     // 1. Validate the request body
@@ -195,7 +196,23 @@ export const resetPassword = async (req, res) => {
         await sendResetSuccessEmail(user.email, user.name); // Send a success email to the user
         res.status(200).json({ success: true, message: "Password reset successfully" }); // Send a response to the client
     } catch (error) {
-        console.error("Error resetting password:", error);
+        res.status(400).json({ success: false, message: error.message });
+    }
+};
+
+// Function to check if the user is authenticated
+export const checkAuth = async(req, res) => {
+    // Logic to check if the user is authenticated
+    // 1. Get the user ID from the request
+    // 2. Find the user in the database
+    // 3. Send a response to the client
+    try {
+        const user = await User.findById(req.userId).select("-password"); // Find the user in the database and exclude the password from the response
+        if(!user){
+            return res.status(400).json({ success: false, message: "User not found" });
+        }
+        res.status(200).json({ success: true, message: "User is authenticated", user }); // Send a response to the client
+    } catch (error) {
         res.status(400).json({ success: false, message: error.message });
     }
 };
