@@ -1,7 +1,8 @@
 import User from "../models/userModel.js";
+import crypto from "crypto";
 import bcryptjs from "bcryptjs";
 import generateTokenAndSetCookie from "../utils/generateTokenAndSetCookie.js";
-import { sendverificationcode, sendWelcomeEmail } from "../nodemailer/email.js";
+import { sendPasswordResetEmail, sendResetSuccessEmail, sendverificationcode, sendWelcomeEmail } from "../nodemailer/email.js";
 
 // Function to handle user signup
 export const signup = async(req, res) => {
@@ -133,6 +134,68 @@ export const login = async (req, res) => {
         }); // Send a response to the client
     } catch (error) {
         console.error("Error logging in:", error);
+        res.status(400).json({ success: false, message: error.message });
+    }
+};
+
+// Function to handle forgot password and send reset token to user's email
+export const forgotPassword = async (req, res) => {
+    // Logic for forgot password
+    // 1. Validate the request body
+    // 2. Check if the user exists
+    // 3. Generate a password reset token
+    // 4. Send the password reset token to the user's email
+    // 5. Send a response to the client
+    const { email } = req.body;
+    try {
+        if(!email){
+            return res.status(400).json({ success: false, message: "Please provide an email" });
+        }
+        const user = await User.findOne({ email }); // Check if the user exists
+        if(!user) {
+            return res.status(400).json({ success: false, message: "User not found" });
+        }
+        const resetToken = crypto.randomBytes(20).toString("hex"); // Generate a password reset token
+        const resetTokenExpiresAt = Date.now() + 10 * 60 * 1000; // Set the expiration time for the password reset token
+        user.resetpasswordToken = resetToken; // Store the password reset token in the database
+        user.resetpasswordTokenExpiresAt = resetTokenExpiresAt; // Store the expiration time for the password reset token
+
+        await user.save(); // Save the user to the database
+        await sendPasswordResetEmail(user.email, `${process.env.CLIENT_URL}/reset-password/${resetToken}`); // Send the password reset token to the user's email
+
+        res.status(200).json({ success: true, message: "Password reset link sent to your email" }); // Send a response to the client
+    } catch (error) {
+        res.status(400).json({ success: false, message: error.message });
+    }
+};
+
+export const resetPassword = async (req, res) => {
+    // Logic for resetting the password
+    // 1. Validate the request body
+    // 2. Check if the user exists
+    // 3. Check if the password reset token is valid
+    // 4. Hash the new password
+    // 5. Update the user's password in the database
+    // 6. Send a response to the client
+    try {
+        const { token } = req.params; // Get the token from the request parameters
+        const { password } = req.body; // Get the new password from the request body
+        const user = await User.findOne({
+            resetpasswordToken: token, //store the password reset token in the database
+            resetpasswordTokenExpiresAt: { $gt: Date.now() }, // Check if the token is valid
+        });
+        if(!user){
+            return res.status(400).json({ success: false, message: "Invalid or expired password reset token" });
+        }
+        const hashedPassword =await bcryptjs.hash(password, 10); // Hash the new password
+        user.password = hashedPassword; // Update the user's password in the database
+        user.resetpasswordToken = undefined; // Remove the password reset token
+        user.resetpasswordTokenExpiresAt = undefined; // Remove the expiration time for the password reset token
+        await user.save(); // Save the user to the database
+        await sendResetSuccessEmail(user.email, user.name); // Send a success email to the user
+        res.status(200).json({ success: true, message: "Password reset successfully" }); // Send a response to the client
+    } catch (error) {
+        console.error("Error resetting password:", error);
         res.status(400).json({ success: false, message: error.message });
     }
 };
