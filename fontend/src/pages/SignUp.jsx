@@ -61,10 +61,10 @@ const SignUp = () => {
       </div>
       <div className="flex gap-2 justify-center px-8 py-4 bg-gray-900 bg-opacity-50">
         <p className='text-gray-400 text-sm'>
-          Already have an account
+          Already have an account?
         </p>
         <Link to={'/login'}>
-         <p className='text-gray-400 text-sm hover:underline cursor-pointer'>
+         <p className='text-gray-400 text-sm hover:underline cursor-pointer hover:text-green-600'>
            Login
          </p>
         </Link>
