@@ -3,6 +3,7 @@ import FloatingShape from "./components/floatingShape"
 import SignUp from "./pages/SignUp"
 import Login from "./pages/Login"
 import EmailVerification from "./pages/EmailVerification"
+import {Toaster} from 'react-hot-toast'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/login" element={<Login/>}></Route>
         <Route path="/email-verify" element={<EmailVerification/>}></Route>
       </Routes>
+      <Toaster/>
     </div>
   )
 }

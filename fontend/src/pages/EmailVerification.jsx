@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import useAuthStore from "../store/authStore";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const EmailVerification = () => {
     const [code, setCode] = useState(["","","","","",""]);
     const inputRefs = useRef([]);
     const navigate = useNavigate();
-    const isLoading = false;
+    const {verifyEmail, error, isLoading} = useAuthStore();
     const handleChange = (index, value)=> {
         const newCode = [...code]
         //Handle pasted content
@@ -34,10 +37,16 @@ const EmailVerification = () => {
             inputRefs.current[index - 1].focus();
         }
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        const verification = code.join("");
-        console.log(`verification code submitted ${verification}`);
+        const verificationCode = code.join("");
+        try {
+             await verifyEmail(verificationCode);
+             navigate('/');
+             toast.success("Email Verified Successfully");
+        } catch (error) {
+            console.log(error);
+        }
     }
     useEffect(()=>{
         if(code.every(digit => digit !== "")){
@@ -74,6 +83,7 @@ const EmailVerification = () => {
                     />
                 ))}
             </div>
+            {error && <p className="text-red-500 font-semibold mt-2">{error}</p>}
             <motion.button
             whileHover={{ scale: 1.05}}
             whileTap={{ scale: 0.95}}

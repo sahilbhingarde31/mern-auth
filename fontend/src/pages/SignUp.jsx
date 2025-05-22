@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import PasswordStrengthMeter from '../components/PasswordStrengthMeter';
 import useAuthStore from '../store/authStore.js';
+import toast from 'react-hot-toast';
 
 const SignUp = () => {
   const [name, setName] = useState('');
@@ -14,8 +15,13 @@ const SignUp = () => {
   const navigate = useNavigate();
   const handleSignUp = async(e) => {
     e.preventDefault();
-    await signup(name, email, password);
-    navigate('/email-verify');
+    try {
+      await signup(name,email,password);
+      navigate('/email-verify');
+      toast.success("User Created Successfully");
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <motion.div 
