@@ -27,16 +27,43 @@ const useAuthStore = create((set) => ({
         }
     },
 
+    login: async(email, password) =>{
+        set({isLoading: true, error: null});
+        try {
+            const response = await axios.post(`${API_URL}/login`,
+                {
+                    email,
+                    password
+                }
+            );
+            set({ user:response.data.user, isAuthenticated: true,error: null, isLoading: false});
+        } catch (error) {
+            set({error: error.response?.data?.message || "Error logging in", isLoading: false});
+            throw error;
+        }
+    },
+
+    logout: async() =>{
+        set({isLoading: true, error: null})
+        try {
+            await axios.post(`${API_URL}/logout`);
+            set({user: null, isAuthenticated: false, isLoading: false, error: null});
+        } catch (error) {
+            set({ error: "error logging out", isLoading:false});
+            throw error;
+        }
+    },
+
     verifyEmail: async(code) => {
         set({isLoading: true, error: null});
         try {
             const response = await axios.post(`${API_URL}/verify-email`,{ 
                 code
             });
-            set({ user: response.data, isAuthenticated: true, isLoading: false});
+            set({ user: response.data.user, isAuthenticated: true, isLoading: false});
             return response.data;
         } catch (error) {
-            set({ error: error.response.data.message || "Error Verifying Email",isLoading: false});
+            set({ error: error.response.data.message || "Error Verifying Email", isLoading: false});
             throw error;
         }
     },

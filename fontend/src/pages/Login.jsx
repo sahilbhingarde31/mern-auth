@@ -3,13 +3,21 @@ import Input from "../components/Input";
 import { Loader, Lock, Mail } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import useAuthStore from "../store/authStore.js";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const isLoading = false;
+  const {login, error, isLoading} = useAuthStore();
   const handleSubmit = async(e) => {
     e.preventDefault();
+    try {
+      await login(email,password);
+      toast.success("Login Successfully");
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <motion.div
@@ -45,6 +53,7 @@ const Login = () => {
               forgot password?
             </Link>
           </div>
+          {error && <p className="text-red-500 font-semibold mb-2">{error}</p>}
           <motion.button
           whileHover={{ scale: 1.02}}
           whileTap={{ scale: 0.98}}
@@ -53,7 +62,7 @@ const Login = () => {
           focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
           type="submit"
           >
-            {isLoading ? <Loader className="size-6 animate-spin mx-auto"/> : "Login"}
+            {isLoading ? <Loader className="animate-spin mx-auto" size={24}/> : "login"}
           </motion.button>
         </form>
       </div>

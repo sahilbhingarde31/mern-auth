@@ -7,6 +7,7 @@ import {Toaster} from 'react-hot-toast'
 import useAuthStore from "./store/authStore.js"
 import { useEffect } from "react"
 import HomePage from "./pages/HomePage.jsx"
+import LoadingSpinner from "./components/LoadingSpinner.jsx"
 
 // protect routes that require authentication
 const ProtectedRoute = ({ children }) => { 
@@ -35,12 +36,13 @@ const RedirectAuthenticatedUser = ({children}) =>{
 }
 function App() {
   //fecthing the user data from database and display in home 
-  const { checkAuth, isAuthenticated, user} = useAuthStore();
+  const { isCheckingAuth, checkAuth} = useAuthStore();
   useEffect(()=>{
     checkAuth();
   },[checkAuth]);
-  console.log("isAuthenticated",isAuthenticated);
-  console.log("user",user);
+  if(isCheckingAuth){
+    return <LoadingSpinner/>
+  }
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-emerald-900 flex items-center justify-center relative overflow-hidden">
       <FloatingShape color='bg-green-500' size='w-64 h-64' top='-5%' left='10%' delay={0}/> {/*with Floating shape we passing props(properties) */}
@@ -66,7 +68,11 @@ function App() {
           </RedirectAuthenticatedUser>
          }>
         </Route>
-        <Route path="/email-verify" element={<EmailVerification/>}></Route>
+        <Route path="/verify-email" element={
+          <RedirectAuthenticatedUser>
+            <EmailVerification/>
+          </RedirectAuthenticatedUser>
+          }></Route>
       </Routes>
       <Toaster/>
     </div>

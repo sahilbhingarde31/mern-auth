@@ -17,7 +17,7 @@ const SignUp = () => {
     e.preventDefault();
     try {
       await signup(name,email,password);
-      navigate('/email-verify');
+      navigate('/verify-email');
       toast.success("User Created Successfully");
     } catch (error) {
       console.log(error);
