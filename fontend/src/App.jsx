@@ -9,6 +9,7 @@ import { useEffect } from "react"
 import HomePage from "./pages/HomePage.jsx"
 import LoadingSpinner from "./components/LoadingSpinner.jsx"
 import ForgotPassword from "./pages/ForgotPassword.jsx"
+import ResetPassword from "./pages/ResetPassword.jsx"
 
 // protect routes that require authentication
 const ProtectedRoute = ({ children }) => { 
@@ -51,35 +52,53 @@ function App() {
       <FloatingShape color='bg-lime-500' size='w-32 h-32' top='40%' left='-10%' delay={2}/>{/*with Floating shape we passing props(properties) */}
 
       <Routes>
-        <Route path="/" element={
+        <Route path="/" 
+         element={
            <ProtectedRoute>
              <HomePage/>
            </ProtectedRoute>
           }>
           </Route>
-        <Route path="/signup" element={
+
+        <Route path="/signup" 
+         element={
           <RedirectAuthenticatedUser>
            <SignUp/>
          </RedirectAuthenticatedUser>
          }>
         </Route>
-        <Route path="/login" element={
+
+        <Route path="/login" 
+         element={
           <RedirectAuthenticatedUser>
             <Login/>
           </RedirectAuthenticatedUser>
          }>
         </Route>
-        <Route path="/verify-email" element={
+
+        <Route path="/verify-email" 
+         element={
           <RedirectAuthenticatedUser>
             <EmailVerification/>
           </RedirectAuthenticatedUser>
           }>
+
           </Route>
-          <Route path="/forgot-password" element={
+          <Route path="/forgot-password" 
+           element={
             <RedirectAuthenticatedUser>
               <ForgotPassword/>
             </RedirectAuthenticatedUser>
           }
+          >
+            
+          </Route>
+          <Route
+          path="/reset-password/:token"
+          element={
+          <RedirectAuthenticatedUser>
+            <ResetPassword/>
+          </RedirectAuthenticatedUser>}
           >
           </Route>
       </Routes>
