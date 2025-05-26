@@ -10,6 +10,9 @@ import HomePage from "./pages/HomePage.jsx"
 import LoadingSpinner from "./components/LoadingSpinner.jsx"
 import ForgotPassword from "./pages/ForgotPassword.jsx"
 import ResetPassword from "./pages/ResetPassword.jsx"
+import Header from "./components/Header.jsx"
+import AboutUs from "./pages/AboutUs.jsx"
+import Feedback from "./pages/Feedback.jsx"
 
 // protect routes that require authentication
 const ProtectedRoute = ({ children }) => { 
@@ -46,11 +49,12 @@ function App() {
     return <LoadingSpinner/>
   }
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-emerald-900 flex items-center justify-center relative overflow-hidden">
+    <>
+    <Header/>
+    <div className="h-[640px] bg-gradient-to-br from-gray-900 via-green-900 to-emerald-900 flex items-center justify-center relative overflow-hidden">
       <FloatingShape color='bg-green-500' size='w-64 h-64' top='-5%' left='10%' delay={0}/> {/*with Floating shape we passing props(properties) */}
       <FloatingShape color='bg-emerald-500' size='w-48 h-48' top='70%' left='80%' delay={5}/>{/*with Floating shape we passing props(properties) */}
       <FloatingShape color='bg-lime-500' size='w-32 h-32' top='40%' left='-10%' delay={2}/>{/*with Floating shape we passing props(properties) */}
-
       <Routes>
         <Route path="/" 
          element={
@@ -101,9 +105,24 @@ function App() {
           </RedirectAuthenticatedUser>}
           >
           </Route>
+          <Route
+          path="/about-us"
+          element={
+            <AboutUs/>
+          }
+          >
+          </Route>
+          <Route
+          path="/feedback"
+          element={
+            <Feedback/>
+          }
+          >
+          </Route>
       </Routes>
       <Toaster/>
     </div>
+    </>
   )
 }
 
