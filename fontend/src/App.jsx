@@ -115,7 +115,9 @@ function App() {
           <Route
           path="/feedback"
           element={
-            <Feedback/>
+            <ProtectedRoute>
+              <Feedback/>
+            </ProtectedRoute>
           }
           >
           </Route>
