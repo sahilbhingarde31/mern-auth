@@ -2,7 +2,7 @@ import User from "../models/userModel.js";
 import crypto from "crypto";
 import bcryptjs from "bcryptjs";
 import generateTokenAndSetCookie from "../utils/generateTokenAndSetCookie.js";
-import { sendPasswordResetEmail, sendResetSuccessEmail, sendverificationcode, sendWelcomeEmail } from "../nodemailer/email.js";
+import { sendFeedbackEmail, sendPasswordResetEmail, sendResetSuccessEmail, sendverificationcode, sendWelcomeEmail } from "../nodemailer/email.js";
 
 // Function to handle user signup
 export const signup = async(req, res) => {
@@ -219,5 +219,23 @@ export const checkAuth = async (req, res) => {
     } catch (error) {
         console.error("Error in checkAuth:", error); // Log error for debugging
         res.status(500).json({ success: false, message: "Something went wrong" });
+    }
+};
+
+export const feedback = async (req, res) => {
+    // Logic for handling feedback
+    // 1. Validate the request body
+    // 2. Send the feedback to the admin's email
+    // 3. Send a response to the client
+    const { name, email, text } = req.body;
+    try {
+        if(!name || !email || !text) {
+            return res.status(400).json({ success: false, message: "Please fill all the fields" });
+        }
+        await sendFeedbackEmail(name, email, text); // Send the feedback to the admin's email
+        res.status(200).json({ success: true, message: "Feedback sent successfully" }); // Send a response to the client
+    } catch (error) {
+        console.error("Error sending feedback:", error);
+        res.status(500).json({ success: false, message: "Internal server error" });
     }
 };

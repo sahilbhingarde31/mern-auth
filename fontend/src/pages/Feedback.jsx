@@ -2,15 +2,29 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Input from '../components/Input';
-import { Loader, Mail, Text, User } from 'lucide-react';
+import {  Loader, Mail, Text, User } from 'lucide-react';
+import useAuthStore from '../store/authStore';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const Feedback = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [text, setText] = useState('');
-  const isSubmitting = false; // Placeholder for submission state
-  const HandleSubmit = (e) => {
+  const {feedback, error, isLoading} = useAuthStore();
+  const navigate = useNavigate();
+  const HandleSubmit = async(e) => {
     e.preventDefault();
+    try {
+      await feedback(name, email, text);
+      setName('');
+      setEmail('');
+      setText('');
+      toast.success('Feedback submitted successfully');
+      navigate('/');
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Error submitting feedback');
+    }
   }
   return (
     <motion.div
@@ -46,6 +60,7 @@ const Feedback = () => {
           onChange = {(e) => setText(e.target.value)}
           required
           />
+          {error && <p className='text-red-500 text-sm'>{error}</p>}
           <motion.button
           whileHover={{ scale: 1.02}}
           whileTap={{ scale: 0.98}}
@@ -54,7 +69,7 @@ const Feedback = () => {
           focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
           type="submit"
           >
-            {isSubmitting ? <Loader className='animate-spin mx-auto'/> : 'Submit Feedback'}
+            {isLoading ? <Loader className='animate-spin mx-auto size-6'/> : 'Submit Feedback'}
           </motion.button>
         </form>
       </div>
