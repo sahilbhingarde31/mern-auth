@@ -11,7 +11,7 @@ const Feedback = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [text, setText] = useState('');
-  const {feedback, error, isLoading} = useAuthStore();
+  const {feedback, error, isLoading, feedbackEmail} = useAuthStore();
   const navigate = useNavigate();
   const HandleSubmit = async(e) => {
     e.preventDefault();
@@ -21,6 +21,11 @@ const Feedback = () => {
       setEmail('');
       setText('');
       toast.success('Feedback submitted successfully');
+      setTimeout( async()=>{
+        await feedbackEmail(name, email, text);
+        toast.success('Feedback email sent successfully');
+        useAuthStore.setState({ isLoading: false }); 
+      }, 1000);
       navigate('/');
     } catch (error) {
       toast.error(error.response?.data?.message || 'Error submitting feedback');
@@ -68,6 +73,7 @@ const Feedback = () => {
           font-bold rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-2
           focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
           type="submit"
+          disabled={isLoading}
           >
             {isLoading ? <Loader className='animate-spin mx-auto size-6'/> : 'Submit Feedback'}
           </motion.button>

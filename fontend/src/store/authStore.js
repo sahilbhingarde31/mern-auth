@@ -117,7 +117,22 @@ const useAuthStore = create((set) => ({
             set({error: error.response.data.message || "Error sending feedback", isLoading: false});
             throw error;
         }
-    }
+    },
+
+    feedbackEmail: async(name, email, text) => {
+        set({isLoading: true, error: null});
+        try {
+            const response = await axios.post(`${API_URL}/feedback-email`, {
+                name,
+                email,
+                text
+            });
+            set({message: response.data.message, isLoading: false});
+        } catch (error) {
+            set({error: error.response.data.message || "Error sending feedback email", isLoading: false});
+            throw error;
+        }
+    },
 }));
 
 export default useAuthStore;

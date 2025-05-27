@@ -132,6 +132,7 @@ With Auth Company, you get secure, seamless access to your accounts and data wit
 </body>
 </html>
 `;
+
 export const FEEDBACK_EMAIL_SEND_TEMPLATE = `
 <!DOCTYPE html>
 <html lang="en">
@@ -157,4 +158,36 @@ export const FEEDBACK_EMAIL_SEND_TEMPLATE = `
   </div>
   </body>
   </html>
+`;
+
+export const FEEDBACK_EMAIL_RECEIVED_TEMPLATE = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback Received</title>
+  </head>
+  <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: linear-gradient(to right, #4CAF50, #45a049); padding: 20px; text-align: center;">
+    <h1 style="color: white; margin: 0;">Feedback Received</h1>
+    </div>
+    <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <p>Hello,</p>
+    <p>We have received your feedback. Thank you for taking the time to share your thoughts with us!</p>
+    <p>Here are the details of your feedback:</p>
+    <div style="background-color: #fff; padding: 10px; border-radius: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+      <p><strong>Name:</strong> {name}</p>
+      <p><strong>Email:</strong> {email}</p>
+      <p><strong>Message:</strong> {text}</p>
+      </div>
+      <p>We appreciate your input and will use it to improve our services.</p>
+      <p>If you have any further questions or concerns, feel free to reach out to us at <a href="mailto:sahilbhingarde18@gmail.com">Send Email</a>.</p>
+      <p>Best regards,<br>Your App Team</p>
+      </div>
+      <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
+        <p>This is an automated message, please do not reply to this email.</p>
+        </div>
+        </body>
+        </html>
 `;
