@@ -182,7 +182,7 @@ export const FEEDBACK_EMAIL_RECEIVED_TEMPLATE = `
       <p><strong>Message:</strong> {text}</p>
       </div>
       <p>We appreciate your input and will use it to improve our services.</p>
-      <p>If you have any further questions or concerns, feel free to reach out to us at <a href="mailto:sahilbhingarde18@gmail.com?subject=Let%27s%20connect%20soon%21">Send Email</a>.</p>
+      <p>If you have any further questions or concerns, feel free to reach out to us at <a href="mailto:sahilbhingarde18@gmail.com">Send Email</a>.</p>
       <p>Best regards,<br>Your App Team</p>
       </div>
       <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
