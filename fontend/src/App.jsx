@@ -14,6 +14,7 @@ import Header from "./components/Header.jsx"
 import AboutUs from "./pages/AboutUs.jsx"
 import Feedback from "./pages/Feedback.jsx"
 import Profile from "./pages/Profile.jsx"
+import Title from "./components/Title.jsx"
 
 // protect routes that require authentication
 const ProtectedRoute = ({ children }) => { 
@@ -53,7 +54,7 @@ function App() {
   return (
     <>
     <Header/>
-    <div className="h-[640px] bg-gradient-to-br from-gray-900 via-green-900 to-emerald-900 flex items-center justify-center relative overflow-hidden">
+    <div className="h-[645px] bg-gradient-to-br from-gray-900 via-green-900 to-emerald-900 flex flex-col items-center justify-center relative overflow-hidden">
       <FloatingShape color='bg-green-500' size='w-64 h-64' top='-5%' left='10%' delay={0}/> {/*with Floating shape we passing props(properties) */}
       <FloatingShape color='bg-emerald-500' size='w-48 h-48' top='70%' left='80%' delay={5}/>{/*with Floating shape we passing props(properties) */}
       <FloatingShape color='bg-lime-500' size='w-32 h-32' top='40%' left='-10%' delay={2}/>{/*with Floating shape we passing props(properties) */}
@@ -68,7 +69,7 @@ function App() {
 
         <Route path="/signup" 
          element={
-          <RedirectAuthenticatedUser>
+           <RedirectAuthenticatedUser>
            <SignUp/>
          </RedirectAuthenticatedUser>
          }>
@@ -76,7 +77,8 @@ function App() {
 
         <Route path="/login" 
          element={
-          <RedirectAuthenticatedUser>
+           <RedirectAuthenticatedUser>
+            <Title/>
             <Login/>
           </RedirectAuthenticatedUser>
          }>
@@ -99,8 +101,7 @@ function App() {
           >
           </Route>
 
-          <Route
-          path="/reset-password/:token"
+          <Route path="/reset-password/:token"
           element={
           <RedirectAuthenticatedUser>
             <ResetPassword/>
@@ -108,16 +109,14 @@ function App() {
           >
           </Route>
 
-          <Route
-          path="/about-us"
+          <Route path="/about-us"
           element={
             <AboutUs/>
           }
           >
           </Route>
 
-          <Route
-          path="/feedback"
+          <Route path="/feedback"
           element={
             <ProtectedRoute>
               <Feedback/>
@@ -126,8 +125,7 @@ function App() {
           >
           </Route>
 
-          <Route
-          path= "/profile-update"
+          <Route  path= "/profile-update"
           element={
             <Profile/>
           }

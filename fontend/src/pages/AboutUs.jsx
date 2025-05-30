@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion'
+import { ArrowLeft } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const AboutUs = () => {
   return (
-    <div>
+    <div className='flex gap-5'>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity:1, y: 0 }}
@@ -23,6 +25,16 @@ const AboutUs = () => {
                     Thank you for choosing our service. We look forward to helping you build secure applications!
                 </p>
             </div>
+      </motion.div>
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+        className=" p-2 h-10 bg-gray-900 flex items-center justify-center rounded-2xl shadow-lg hover:bg-gray-500 transition duration-300"
+       >
+        <Link to={"/"} className="text-sm text-green-400 flex items-center">
+        <ArrowLeft className="size-4 mr-2"/> Back to Home
+        </Link>
       </motion.div>
     </div>
   )
