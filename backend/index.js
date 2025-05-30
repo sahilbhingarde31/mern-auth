@@ -12,7 +12,12 @@ const port = process.env.PORT || 5000 ; // Get the port from environment variabl
 app.use(cors({origin: "http://localhost:5173", credentials: true}));
 app.use(express.json()); // Middleware to parse JSON request bodies
 app.use(cookieParser()); // Middleware to parse cookies from the request(incoming cookies)
+
 app.use('/api/auth', authrouter); // Use the auth router for authentication routes
+
+app.get('/', (req, res) => {
+    res.send('Welcome to the backend server!'); // Respond with a welcome message
+},)
 app.listen(port, () => {
     connectDB();
     console.log(`Server is running on port ${port}`); // Log the port number

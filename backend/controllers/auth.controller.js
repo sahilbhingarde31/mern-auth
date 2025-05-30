@@ -255,3 +255,23 @@ export const sendFeedbackReceivedEmail = async (req, res) => {
         res.status(500).json({ success: false, message: "Internal server error" });
     }
 };
+
+// Function to handle updating user profile
+export const updateProfile = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    const updates = { name, email };
+    if (password) {
+      updates.password = await bcryptjs.hash(password, 10); // Hash the new password
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(req.userId, updates, {
+      new: true,
+    }).select("-password"); // Don't return password
+
+    res.status(200).json({ success: true, message: "Profile updated successfully" , user: { updatedUser } });
+  } catch (error) {
+    console.error("Update error:", error);
+    res.status(500).json({ message: "Failed to update profile" });
+  }
+};

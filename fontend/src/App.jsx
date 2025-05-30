@@ -13,6 +13,7 @@ import ResetPassword from "./pages/ResetPassword.jsx"
 import Header from "./components/Header.jsx"
 import AboutUs from "./pages/AboutUs.jsx"
 import Feedback from "./pages/Feedback.jsx"
+import Profile from "./pages/Profile.jsx"
 
 // protect routes that require authentication
 const ProtectedRoute = ({ children }) => { 
@@ -42,6 +43,7 @@ const RedirectAuthenticatedUser = ({children}) =>{
 function App() {
   //fecthing the user data from database and display in home 
   const { isCheckingAuth, checkAuth} = useAuthStore();
+  //checkAuth is a function that checks if the user is authenticated or not
   useEffect(()=>{
     checkAuth();
   },[checkAuth]);
@@ -86,8 +88,8 @@ function App() {
             <EmailVerification/>
           </RedirectAuthenticatedUser>
           }>
-
           </Route>
+
           <Route path="/forgot-password" 
            element={
             <RedirectAuthenticatedUser>
@@ -95,8 +97,8 @@ function App() {
             </RedirectAuthenticatedUser>
           }
           >
-            
           </Route>
+
           <Route
           path="/reset-password/:token"
           element={
@@ -105,6 +107,7 @@ function App() {
           </RedirectAuthenticatedUser>}
           >
           </Route>
+
           <Route
           path="/about-us"
           element={
@@ -112,12 +115,21 @@ function App() {
           }
           >
           </Route>
+
           <Route
           path="/feedback"
           element={
             <ProtectedRoute>
               <Feedback/>
             </ProtectedRoute>
+          }
+          >
+          </Route>
+
+          <Route
+          path= "/profile-update"
+          element={
+            <Profile/>
           }
           >
           </Route>

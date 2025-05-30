@@ -1,5 +1,5 @@
 import express from 'express';
-import { checkAuth, feedback, forgotPassword, login, logout, resetPassword, sendFeedbackReceivedEmail, signup, verifyEmail } from '../controllers/auth.controller.js';
+import { checkAuth, feedback, forgotPassword, login, logout, resetPassword, sendFeedbackReceivedEmail, signup, updateProfile, verifyEmail } from '../controllers/auth.controller.js';
 import { verifyToken } from '../middleware/verifyToken.js';
 
 const authrouter = express.Router();
@@ -13,5 +13,6 @@ authrouter.post('/reset-password/:token', resetPassword); // Route for resetting
 authrouter.get('/check-auth',verifyToken, checkAuth); // Route to check if user is authenticated
 authrouter.post('/feedback', feedback); // Route for submitting feedback
 authrouter.post('/feedback-email', sendFeedbackReceivedEmail); // Route to send feedback received email
-
+authrouter.get('/update-profile', verifyToken, checkAuth); // Route to get user profile for updating
+authrouter.put('/update-profile',verifyToken, updateProfile); // Route to update user profile
 export default authrouter; // Export the auth router for use in other files

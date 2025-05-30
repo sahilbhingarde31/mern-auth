@@ -76,6 +76,7 @@ const useAuthStore = create((set) => ({
             set({ user: response.data.user, isAuthenticated: true, isCheckingAuth: false});
         } catch (error) {
             set({ error: null, isCheckingAuth: false, isAuthenticated: false});
+            throw error;
         }
     },
 
@@ -133,6 +134,27 @@ const useAuthStore = create((set) => ({
             throw error;
         }
     },
+
+    fetchUser: async() => {
+        set({isLoading: true, error: null});
+        try {
+            const response = await axios.get(`${API_URL}/update-profile`);
+            set({ user: response.data.user, isLoading: false });
+        } catch (error) {
+            set({error: error.response?.data?.message || error.message, isLoading: false});
+        }
+    },
+
+    updateProfile: async(updatedData) =>{
+        set({isLoading:true, error: null});
+        try {
+            const response = await axios.put(`${API_URL}/update-profile`, updatedData);
+            set({user: response.data.user, isLoading: false, error: null, isAuthenticated: true});
+            return response.data;
+        } catch (error) {
+            set({error: error.response?.data?.message || "Error updating profile", isLoading: false});
+        }
+    }
 }));
 
 export default useAuthStore;
