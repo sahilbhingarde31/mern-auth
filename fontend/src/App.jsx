@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom"
-import FloatingShape from "./components/floatingShape"
+import FloatingShape from "./components/FloatingShape.jsx"
 import SignUp from "./pages/SignUp"
 import Login from "./pages/Login"
 import EmailVerification from "./pages/EmailVerification"
