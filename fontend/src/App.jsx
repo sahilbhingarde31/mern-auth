@@ -127,9 +127,7 @@ function App() {
 
           <Route  path= "/profile-update"
           element={
-            <ProtectedRoute>
               <Profile/>
-            </ProtectedRoute>
           }
           >
           </Route>
