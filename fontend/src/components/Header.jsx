@@ -11,7 +11,7 @@ const Header = () => {
         <Link to='/'>
           <img src="shield.png" alt="" className="size-10 rounded-lg" />
         </Link>
-        <h1 className="text-2xl font-bold bg-gradient-to-r from-green-300 to-emerald-400 text-transparent bg-clip-text">Auth Company</h1>
+        <h1 className="text-2xl font-bold bg-gradient-to-r from-green-300 to-emerald-400 text-transparent bg-clip-text">Auth Website</h1>
 
         {/* Animated Hamburger Menu Button */}
         <div 
