@@ -17,13 +17,12 @@ app.use(cookieParser()); // Middleware to parse cookies from the request(incomin
 
 app.use('/api/auth', authrouter); // Use the auth router for authentication routes
 
+if(process.env.NODE_ENV === 'production') {
 app.use(express.static(path.join(__dirname, '/fontend/dist'))); // Serve static files from the frontend build directory
 app.get(/(.*)/, (req, res) => {
     res.sendFile(path.join(__dirname, 'fontend', 'dist', 'index.html')); // Serve the index.html file for all other routes
 })
-app.get('/', (req, res) => {
-    res.send('Welcome to the backend server!'); // Respond with a welcome message
-},)
+}
 app.listen(port, () => {
     connectDB();
     console.log(`Server is running on port ${port}`); // Log the port number
